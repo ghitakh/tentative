@@ -1,0 +1,2457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Limitations of Liability:
+1. This material is provided "As Is" and neither ATA nor any person who has contributed to the creation, revision or maintenance of the material makes any representations or warranties, express or implied, including but not limited to, warranties of merchantability or fitness for any particular purpose.
+2. Neither ATA nor any person who has contributed to the creation, revision or maintenance of this material shall be liable for any direct, indirect, special or consequential damages or any other liability arising from any use of this material.
+3. Revisions to this document may occur after its issuance. The user is responsible for determining if revisions to the material contained in this document have occurred and are applicable.
+-->
+<xs:schema xmlns:elb="http://www.ataebiz.org/XMLSchema/DSELogbook" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.ataebiz.org/XMLSchema/DSELogbook" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.01">
+	<xs:import namespace="http://uri.etsi.org/01903/v1.3.2#" schemaLocation="http://uri.etsi.org/01903/v1.3.2/XAdES.xsd"/>
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd"/>
+	<xs:annotation>
+		<xs:documentation>====  Top Level Elements  ====</xs:documentation>
+	</xs:annotation>
+	<xs:element name="ATA_DSE_Logbook" type="elb:ATA_DSE_LogbookType">
+		<xs:annotation>
+			<xs:documentation>Top Level element defined for backward compatibility</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="LogbookData" type="elb:ATA_DSE_LogbookType">
+		<xs:annotation>
+			<xs:documentation>Top Level element for logbook object data only</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ATA_S2000_Ch17_Data" type="elb:ATA_S2000_Ch17_DataType">
+		<xs:annotation>
+			<xs:documentation>Top Level element which allows for multiple LogbookDataContainer elements</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="ATA_DSE_LogbookResponse" type="elb:LogbookResponseType">
+		<xs:annotation>
+			<xs:documentation>Top Level element used for response messages</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:annotation>
+		<xs:documentation>====  Top Level Out-of-band Service Elements  ====</xs:documentation>
+	</xs:annotation>
+	<xs:element name="PartValidationRequest" type="elb:PartValidationRequestType">
+		<xs:annotation>
+			<xs:documentation>Top Level element used by the client of a part validation interaction to request part validation support for a part related transaction</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="PartValidationResponse" type="elb:PartValidationResponseType">
+		<xs:annotation>
+			<xs:documentation>Top Level element used by the server of a part validation interaction in response to a PartValidationRequest from a client</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:annotation>
+		<xs:documentation>====  Top Level Complex Types  ====</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="ATA_DSE_LogbookType">
+		<xs:annotation>
+			<xs:documentation>Root ATA DSE Logbook Element Definition</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Asset" type="elb:AssetType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The asset (aircraft or component) which is referred to by other logbook data</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="ELB_User" type="elb:ELB_UserType">
+					<xs:annotation>
+						<xs:documentation>Represents information about the person who entered or signed the logbook data</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ELB_Signature" type="elb:ELB_SignatureType">
+					<xs:annotation>
+						<xs:documentation>Represents logbook signature information (other than digital signatures)</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FlightLog" type="elb:FlightLogType">
+					<xs:annotation>
+						<xs:documentation>Represents both general flight and specific journey log information</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FuelRecord" type="elb:FuelRecordType">
+					<xs:annotation>
+						<xs:documentation>Represents fuel record / fuel logbook information</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MaintAction" type="elb:MaintActionType">
+					<xs:annotation>
+						<xs:documentation>Represents records documenting the performance of maintenance activity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MaintActionPartReplacement" type="elb:MaintActionPartReplacementType">
+					<xs:annotation>
+						<xs:documentation>Represents part removal and installation activity</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MaintActionTask" type="elb:MaintActionTaskType">
+					<xs:annotation>
+						<xs:documentation>Represents maintenance tasks performed as part of an overall maintenance action</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MaintLog" type="elb:MaintLogType">
+					<xs:annotation>
+						<xs:documentation>Captures the types of information which drive line maintenance activity: Fault Reports, Work Orders, Requests for Action</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MaintLogResource" type="elb:MaintLogResourceType">
+					<xs:annotation>
+						<xs:documentation>Resources (parts, personnel, skills, hangar space, etc.) required to resolve a defect and/or those resources used as part of a maintenance action</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="MaintRelease" type="elb:MaintReleaseType">
+					<xs:annotation>
+						<xs:documentation>Documents airworthiness release</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ReferenceData" type="elb:ReferenceDataType">
+					<xs:annotation>
+						<xs:documentation>Represents attachment type data referenced in other records</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ServiceLog" type="elb:ServiceLogType">
+					<xs:annotation>
+						<xs:documentation>Represents aircraft servicing actions taken</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="JoinFRFL">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining FuelRecord and FlightLog records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="FuelRecordID" type="elb:EntityID_Type"/>
+									<xs:element name="FlightLogID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMAFL">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining MaintAction and FlightLog records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="MaintActionID" type="elb:EntityID_Type"/>
+									<xs:element name="FlightLogID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMAML">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining MaintAction and MaintLog records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="MaintActionID" type="elb:EntityID_Type"/>
+									<xs:element name="MaintLogID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMAMP">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining MaintAction and MaintActionPartReplacement records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="MaintActionID" type="elb:EntityID_Type"/>
+									<xs:element name="MaintActionPartReplacementID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMAMT">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining MaintAction and MaintActionTask records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="MaintActionID" type="elb:EntityID_Type"/>
+									<xs:element name="MaintActionTaskID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMARS">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining MaintAction and MaintLogResource records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="MaintActionID" type="elb:EntityID_Type"/>
+									<xs:element name="MaintLogResourceID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMLFL">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining MaintLog and FlightLog records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="MaintLogID" type="elb:EntityID_Type"/>
+									<xs:element name="FlightLogID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMLML">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining two MaintLog records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="SourceMaintLogID" type="elb:EntityID_Type">
+										<xs:annotation>
+											<xs:documentation>Contains the unique ID associated with a record in MaintLog for the record forming the base of the relationship</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="TargetMaintLogID" type="elb:EntityID_Type">
+										<xs:annotation>
+											<xs:documentation>Contains the unique ID associated with a record in MaintLog for the record which extends from the source record in some way</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:choice minOccurs="0">
+										<xs:element name="TypeOfJoin">
+											<xs:annotation>
+												<xs:documentation>Contains the type of relationship between two MaintLog records
+										</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="20"/>
+													<xs:enumeration value="RecurrenceOf">
+														<xs:annotation>
+															<xs:documentation>target MaintLog is a recurrence of the source MaintLog</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="RecheckFor">
+														<xs:annotation>
+															<xs:documentation>target MaintLog identifies a recheck requirement derived from the source MaintLog</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="FollowUpOf">
+														<xs:annotation>
+															<xs:documentation>target MaintLog is a follow up item related to source MaintLog</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="WorkToAddress">
+														<xs:annotation>
+															<xs:documentation>target MaintLog identifies work to address the source MaintLog</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="RelatedTo">
+														<xs:annotation>
+															<xs:documentation>target MaintLog  is related to the source MaintLog</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="SubItemOf">
+														<xs:annotation>
+															<xs:documentation>target MaintLog is a sub item of the source MaintLog</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+													<xs:enumeration value="ContinuationOf">
+														<xs:annotation>
+															<xs:documentation>target MaintLog is a continuation of the source MaintLog</xs:documentation>
+														</xs:annotation>
+													</xs:enumeration>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:element>
+										<xs:element name="TypeOfJoinOther" type="elb:OtherType">
+											<xs:annotation>
+												<xs:documentation>Indicates a type of MaintLog relationship outside of the enumerations provided in TypeOfJoin</xs:documentation>
+											</xs:annotation>
+										</xs:element>
+									</xs:choice>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMLRS">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining MaintLog and MaintLogResource records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="MaintLogID" type="elb:EntityID_Type"/>
+									<xs:element name="MaintLogResourceID" type="elb:EntityID_Type"/>
+									<xs:element name="StepNumber" type="xs:int" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Contains the ordinal step number of an assigned list of maintenance activities (e.g. from MaintLog:PlannedStep)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMRFL">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining MaintRelease and FlightLog records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="MaintReleaseID" type="elb:EntityID_Type"/>
+									<xs:element name="FlightLogID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMRMA">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining MaintRelease and MaintAction records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="MaintReleaseID" type="elb:EntityID_Type"/>
+									<xs:element name="MaintActionID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinMRSL">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining MaintRelease and ServiceLog records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="MaintReleaseID" type="elb:EntityID_Type"/>
+									<xs:element name="ServiceLogID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JoinSLFL">
+					<xs:annotation>
+						<xs:documentation>Relationship information joining ServiceLog and FlightLog records</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="elb:JoinBaseType">
+								<xs:sequence>
+									<xs:element name="ServiceLogID" type="elb:EntityID_Type"/>
+									<xs:element name="FlightLogID" type="elb:EntityID_Type"/>
+								</xs:sequence>
+							</xs:extension>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ATA_DSE_LogbookExtension" type="xs:anyType">
+					<xs:annotation>
+						<xs:documentation>Element that allows for non-ATA_DSE_Logbook XML schema standard elements and attributes to be added to the model</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="operator" use="required">
+			<xs:annotation>
+				<xs:documentation>ICAO operator code</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:maxLength value="5"/>
+					<xs:minLength value="3"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="version" use="required">
+			<xs:annotation>
+				<xs:documentation>Schema version number used in each of schema's root elements</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:decimal">
+					<xs:fractionDigits value="2"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="ATA_S2000_Ch17_DataType">
+		<xs:annotation>
+			<xs:documentation>Type defining container of one or many LogbookDataContainer elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="LogbookDataContainer" type="elb:LogbookDataContainerType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Used to segregate logbook data contents (e.g. could be used to separate data based on aircraft or asset.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LogbookDataContainerType">
+		<xs:annotation>
+			<xs:documentation>Type defining container for groups of logbook data, contextual data, signatures and timestamps.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element ref="elb:LogbookData" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Primary object data as top level element or in the LogbookDataContainer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LogbookContextData" type="elb:ATA_DSE_LogbookType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Reference data being passed along with LogbookData for convenience and/or referential integrity</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Signature" type="ds:SignatureType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Digital Signature data structure per W3C ds definition</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Timestamp" type="xades:OtherTimeStampType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Digital timestamp data structure per W3C XAdES definition</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LogbookResponseType">
+		<xs:annotation>
+			<xs:documentation>Response for an ATA_DSE_Logbook object data service</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Error" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>If status=error, this element will contain a description of the error</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Code" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The receiving system code associated with the error. This code may be displayed to the user by the sending system (the system receiving the response) or recorded in a log file. Example:404</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:int">
+									<xs:totalDigits value="4"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Title" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Tltle of fault that can be used by sending system to display to the user. Example: File Not Found</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="50"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="Description">
+							<xs:annotation>
+								<xs:documentation>Detailed description of exception. Example:The file you requested cannot be found</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="500"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="MissingReferenceID" type="elb:ID_ReferenceType" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Contains the unique ID of a ATA_DSE_Logbook entry. Used to list ATA_DSE_Logbook entity IDs referenced in the payload that the receiving system does not have. The system receiving this error type is expected to resend the original request including a list of all missing references.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ATA_ObjectData" type="elb:ATA_DSE_LogbookType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Contains ATA_DSE_Logbook object data</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="version" use="required">
+			<xs:annotation>
+				<xs:documentation>ATA_DSE_LogbookResponse XML schema version</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:decimal">
+					<xs:fractionDigits value="2"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="status" use="required">
+			<xs:annotation>
+				<xs:documentation>The status of the web service call. The scope of the response is dependent upon the specific implementation of the system hosting the web service.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="ok"/>
+					<xs:enumeration value="error"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="msgID">
+			<xs:annotation>
+				<xs:documentation>A reference to the message ID associated with the web service request</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:maxLength value="50"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:annotation>
+		<xs:documentation>====  Complex and Simple Type Definitions  ====</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="AircraftDescriptorType">
+		<xs:annotation>
+			<xs:documentation>Contains information about the aircraft description</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AircraftManufacturerData" type="elb:AircraftManufacturerDataType">
+				<xs:annotation>
+					<xs:documentation>Contains data about an aircraft typically specified by the manufacturer</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AircraftOperatorData" type="elb:AircraftOperatorDataType">
+				<xs:annotation>
+					<xs:documentation>Contains data about an aircraft typically specified by the operator</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="AircraftIdentifierType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AircraftManufacturerDataType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="AircraftManufacturerName">
+					<xs:annotation>
+						<xs:documentation>Indicates the aircraft manufacturer</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="32"/>
+							<xs:enumeration value="ATR"/>
+							<xs:enumeration value="Airbus"/>
+							<xs:enumeration value="Aerospatiale"/>
+							<xs:enumeration value="Antonov"/>
+							<xs:enumeration value="BAC"/>
+							<xs:enumeration value="BAE Systems"/>
+							<xs:enumeration value="Beechcraft"/>
+							<xs:enumeration value="Boeing"/>
+							<xs:enumeration value="Bombardier"/>
+							<xs:enumeration value="Canadair"/>
+							<xs:enumeration value="CASA"/>
+							<xs:enumeration value="Cessna"/>
+							<xs:enumeration value="Cirrus"/>
+							<xs:enumeration value="Comac"/>
+							<xs:enumeration value="Convair"/>
+							<xs:enumeration value="Dassault"/>
+							<xs:enumeration value="De Havilland"/>
+							<xs:enumeration value="Douglas"/>
+							<xs:enumeration value="Embraer"/>
+							<xs:enumeration value="Fairchild"/>
+							<xs:enumeration value="Fokker"/>
+							<xs:enumeration value="Gulfstream"/>
+							<xs:enumeration value="Ilyushin"/>
+							<xs:enumeration value="Learjet"/>
+							<xs:enumeration value="Lockheed"/>
+							<xs:enumeration value="McDonnell Douglas"/>
+							<xs:enumeration value="Mitsubishi"/>
+							<xs:enumeration value="Piper"/>
+							<xs:enumeration value="Rockwell"/>
+							<xs:enumeration value="Sukhoi"/>
+							<xs:enumeration value="Tupolev"/>
+							<xs:enumeration value="Yakolev"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AircraftManufacturerNameOther" type="elb:OtherType">
+					<xs:annotation>
+						<xs:documentation>Indicates an other aircraft manufacturer name</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="IATA_TypeCode">
+				<xs:annotation>
+					<xs:documentation>Describes the type of aircraft according to the IATA designation.  Example:744</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="3"/>
+						<xs:minLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AircraftModel">
+				<xs:annotation>
+					<xs:documentation>Describes the type of aircraft in common use in operations for the generic designation of the model by manufacturers. Example:A330-200;777-300</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AircraftSpecification">
+				<xs:annotation>
+					<xs:documentation>Describes the type of aircraft related to technical specification of the A/C, internal use for an operator. Example:A330-203;777-306ER</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AircraftAMS_Model">
+				<xs:annotation>
+					<xs:documentation>Describes the type of aircraft related to Aircraft Maintenance Specification and MEL. Example:A330</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AircraftEngineModel">
+				<xs:annotation>
+					<xs:documentation>Contains the engine model installed on the aircraft. Example:Trent 800</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="elb:String12Type">
+							<xs:attribute name="numberOfEngines" type="xs:int" use="required">
+								<xs:annotation>
+									<xs:documentation>Number of engines on the aircraft</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AircraftFactoryDeliveryDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains the out of factory delivery date of the aircraft. Example:2012-07-02</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AircraftWarrantyEndDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains the end of the manufacturer warranty date of the aircraft. Example:2016-12-31</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AircraftOperatorDataType">
+		<xs:sequence>
+			<xs:element name="AircraftEffectivityCode">
+				<xs:annotation>
+					<xs:documentation>Contains a mandatory used reference for maintenance (e.g. manual effectivity code). Example:051</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="3"/>
+						<xs:minLength value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="AircraftStatus">
+					<xs:annotation>
+						<xs:documentation>Contains the status of the aircraft</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="32"/>
+							<xs:enumeration value="InFleet"/>
+							<xs:enumeration value="OutOfFleet"/>
+							<xs:enumeration value="Locked"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="AircraftStatusOther">
+					<xs:annotation>
+						<xs:documentation>Contains other value for aircraft status</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="32"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="AircraftOwner">
+				<xs:annotation>
+					<xs:documentation>Contains the name of the aircraft owner. Example:United Airlines</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="elb:String32Type">
+							<xs:attribute name="typeOfOwner" type="elb:TypeOfOwnerType" use="required">
+								<xs:annotation>
+									<xs:documentation>Contains the type of owner. Example:Airline</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AircraftOperator">
+				<xs:annotation>
+					<xs:documentation>Contains the name of the aircraft operator. Example:United Airlines</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AircraftETOPS_Capability" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains the maximum ETOPS capability (in minutes) of the aircraft within an operators operation. Note: no distinction is made between ETOPS and LROPS. Note: this is not equal to the actual ETOPS status of the aircraft. Example:90;120;138;180;207;240;330</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaintenanceProvider" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains the name of the appointed maintenance provider / Repair Station License holder by the Operator</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AircraftInFleetDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains the date when the aircraft actually (or is projected to) entered the operator's fleet</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AircraftOutOfFleetDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains the date when the aircraft actually (or is projected to) leave the operator's fleet</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AssetType">
+		<xs:sequence>
+			<xs:element name="ID" type="elb:EntityID_Type">
+				<xs:annotation>
+					<xs:documentation>Unique ID for this Asset</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:choice>
+				<xs:element name="TypeOfAsset">
+					<xs:annotation>
+						<xs:documentation>Typical assets tracked by separate logs</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="20"/>
+							<xs:enumeration value="Aircraft"/>
+							<xs:enumeration value="APU"/>
+							<xs:enumeration value="Engine"/>
+							<xs:enumeration value="Landing Gear"/>
+							<xs:enumeration value="Nose Cowl"/>
+							<xs:enumeration value="Propeller"/>
+							<xs:enumeration value="Thrust Reverser"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="TypeOfAssetOther" type="elb:OtherType">
+					<xs:annotation>
+						<xs:documentation>Used for other value of TypeOfAsset </xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="AssetManufacturerCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[MFR] CAGE code for asset manufacturer</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AssetSerialNum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Asset Serial Number</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="32"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="RecordName" type="elb:RecordNameType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A record identifier that may be easily referred to during verbal communication (i.e. not a UUID)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ParentAssetID" type="elb:EntityID_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>To be used when TypeOfAsset is not Aircraft</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssetPositionOnParent" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Position of this component/assembly asset on the parent asset</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="10"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="AircraftDescriptor" type="elb:AircraftDescriptorType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains information of the aircraft description. Can be used when TypeOfAsset=Aircraft</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comments" type="elb:CommentsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Comments for this Asset</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssetExtension" type="xs:anyType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Element that allows for non-ATA_DSE_Logbook XML schema standard elements and attributes to be added to the model</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="originDateTime" type="xs:dateTime" use="required">
+			<xs:annotation>
+				<xs:documentation>Contains the date and time when the logbook record was originally created in an electronic or paper system</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="modifiedDateTime" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Contains the date and time when the logbook record was last modified</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="isVoid" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>Indicates if the record referred to in AmendsRecordID is void. If true, Comments should contain reason for void. Note: This is not a physical deletion of the record</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="ATA_NumType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="8"/>
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="CommentsType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CoordinateLocationType">
+		<xs:sequence>
+			<xs:element name="CoordinateSystem">
+				<xs:annotation>
+					<xs:documentation>Name of the coordinate system used</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+						<xs:enumeration value="Body"/>
+						<xs:enumeration value="Wing"/>
+						<xs:enumeration value="Nacelle"/>
+						<xs:enumeration value="Pylon"/>
+						<xs:enumeration value="HorizontalStabilizer"/>
+						<xs:enumeration value="VerticalStabilizer"/>
+						<xs:enumeration value="Window"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="FromStationName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Starting airframe station name identifying the location range</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ToStationName" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ending airframe station name identifying the location range</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LongitudinalAxis" type="elb:QuantityRangeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[ASTx] This refers to Airframe X-axis coordinate range</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="HorizontalAxis" type="elb:QuantityRangeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[BLNx] This refers to the Buttock Line value or Airframe Y-axis coordinate range. Negative values are left of longitudinal centerline, positive values are right of centerline.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="VerticalAxis" type="elb:QuantityRangeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[WATx] This refers to the Waterline Number or Airframe Z-axis coordinate range</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RadialPosition" type="elb:QuantityRangeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This refers to a radial position range for a radial coordinate system</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentReferenceType">
+		<xs:annotation>
+			<xs:documentation>Represents reference document</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="DocumentNumber">
+					<xs:annotation>
+						<xs:documentation>Contains the single text string reference to a document. Example:AMM 21-51-03;SRM 52-33-05</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="100"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="DocumentNumRef">
+					<xs:annotation>
+						<xs:documentation>Structured document reference information</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ChapNbr" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Chapter Number of the document reference. Example:27</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:totalDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="SectNbr" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Section Number of the document reference. Example:51</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:totalDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="UnitNbr" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Unit Number of the document reference. Example:00</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:int">
+										<xs:totalDigits value="2"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="TaskNbr" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Used to identify the detailed reference to the task. Example:710-052-A</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="15"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="FigureNbr" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Figure Number of the document reference (typically used for an IPC reference). Example:101</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="6"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="SheetNbr" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Sheet Number of the document reference (typically used for an IPC reference). Example:1</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="6"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="ItemNbr" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>Item Number of the document reference (typically used for an IPC reference). Example:133</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="6"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="Other" minOccurs="0">
+								<xs:annotation>
+									<xs:documentation>To be used in not yet foreseen document references</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="15"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="CAGE_Code" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[CAG] Company who authored the referenced document. Example:82105</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="5"/>
+						<xs:minLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Company" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[WHO] Name of the Company who authored the referenced document. Example: The Boeing Company</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="55"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Model" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Applicable aircraft model for the document. Example:A340-600</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:element name="TypeOfDocument">
+					<xs:annotation>
+						<xs:documentation>Description of the document title or type</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="5"/>
+							<xs:enumeration value="AD">
+								<xs:annotation>
+									<xs:documentation>Airworthiness Directive</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="AMM">
+								<xs:annotation>
+									<xs:documentation>Aircraft Maintenance Manual</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="CMM">
+								<xs:annotation>
+									<xs:documentation>Component Maintenance Manual</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="FIM">
+								<xs:annotation>
+									<xs:documentation>Fault Isolation Manual</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="FRM">
+								<xs:annotation>
+									<xs:documentation>Fault Reporting Manual</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="MPD">
+								<xs:annotation>
+									<xs:documentation>Maintenance Planning Document</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="SB">
+								<xs:annotation>
+									<xs:documentation>Service Bulletin</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="SRM">
+								<xs:annotation>
+									<xs:documentation>Structural Repair Manual</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="TSM">
+								<xs:annotation>
+									<xs:documentation>Trouble Shooting Manual</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="EA">
+								<xs:annotation>
+									<xs:documentation>Engineering Authorization/Authority</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="EO">
+								<xs:annotation>
+									<xs:documentation>Engineering Order</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="AIPC">
+								<xs:annotation>
+									<xs:documentation>Airplane Illustrated Parts Catalog/IPD</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="EIPC">
+								<xs:annotation>
+									<xs:documentation>Engine Illustrated Parts Catalog/IPD</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="EM">
+								<xs:annotation>
+									<xs:documentation>Engine Manual</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="WM">
+								<xs:annotation>
+									<xs:documentation>Wiring Manual</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="CPM">
+								<xs:annotation>
+									<xs:documentation>Consumable Products Manual</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="AFM">
+								<xs:annotation>
+									<xs:documentation>Airplane Flight Manual</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="MRBR">
+								<xs:annotation>
+									<xs:documentation>Maintenance Review Board Report</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="MEL">
+								<xs:annotation>
+									<xs:documentation>Minimum Equipment List</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="MMEL">
+								<xs:annotation>
+									<xs:documentation>Master Minimum Equipment List</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="CDL">
+								<xs:annotation>
+									<xs:documentation>Configuration Deviations List</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="STC">
+								<xs:annotation>
+									<xs:documentation>Supplemental Type Certificate</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+							<xs:enumeration value="ARC">
+								<xs:annotation>
+									<xs:documentation>Authorized Release Certificate</xs:documentation>
+								</xs:annotation>
+							</xs:enumeration>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="TypeOfDocumentOther">
+					<xs:annotation>
+						<xs:documentation>Other document title or type</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="RevisionNum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Revision number of the document</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="12"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="RevisionDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Revision date of the document</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="URL" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains an external reference to the document</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="1000"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="DocumentReferenceExtension" type="xs:anyType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Element that allows for non-ATA_DSE_Logbook XML schema standard elements and attributes to be added to the model</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ELB_SignatureType">
+		<xs:complexContent>
+			<xs:extension base="elb:EntityBaseType">
+				<xs:sequence>
+					<xs:element name="ELB_User" type="elb:ELB_UserReferenceType">
+						<xs:annotation>
+							<xs:documentation>The ELB_User who created the ELB_Signature record</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ReferenceRecordID" type="elb:ID_ReferenceType" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Unique record ID for which this signature applies</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="TypeOfSignature" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Contains a description of the type of signature applied. Example:CRS;Release;Inspection</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="50"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="SignatureStatement" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Statement present when electronic signature was applied. Example:Certifies the work specified was carried out in accordance with airline procedure xyz-123</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="500"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ValidationDateTime" type="xs:dateTime" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Contains the date time that signature validation was performed</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ValidationSuccessful" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicator of validation success or failure, will be null if no validation performed</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SignatureValidatedBy" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Name of system performing signature validation. Example:MySigValSystem</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="50"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ValidationInfo" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Code returned by signature validation system. Example: 035fe8ea22</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="50"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ValidationFailureReason" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Contains a description of the reason for signature validation failure. Example:Training Expired</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="50"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ELB_SignatureExtension" type="xs:anyType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Element that allows for non-ATA_DSE_Logbook XML schema standard elements and attributes to be added to the model</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="signatureDateTime" type="xs:dateTime">
+					<xs:annotation>
+						<xs:documentation>Contains the date and time when the record was signed</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:group name="ELB_UserGroup">
+		<xs:annotation>
+			<xs:documentation>Group used in choice with ELB_UserID</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="TypeOfUser">
+				<xs:annotation>
+					<xs:documentation>The role of the ELB_User. Example:Maintenance Engineer</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Company">
+				<xs:annotation>
+					<xs:documentation>[WHO] Contains the name of the Company the user represents. Example:United Airlines</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="55"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PersonnelID" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[UPI] Contains the company issued personnel ID number. Example:067752</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Name" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[EMP, MNM]Contains the user's full name. Example:Loren Charlton</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="RepairStationNum" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>[RCN] Contains the repair station certificate number. This is the maintenance organization number - license assigned to the MRO. Example:FBACR668L</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="LicenseNum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains the aviation regulatory agency issued license number for this user. May indicate A and P, dispatcher, or other license number. Example:FAA11223344</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Comments" type="elb:CommentsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[REM] Comments related to the user, e.g. to identify the reason for a modification or voiding the ELB_User record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="ELB_UserReferenceType">
+		<xs:annotation>
+			<xs:documentation>Identifies an individual performing an action, authoring or signing a logbook record by ID number or element group</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="ELB_UserID" type="elb:EntityID_Type">
+				<xs:annotation>
+					<xs:documentation>Contains the unique ID of the ELB_User</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="elb:ELB_UserGroup">
+				<xs:annotation>
+					<xs:documentation>Choice between ID or this group of elements</xs:documentation>
+				</xs:annotation>
+			</xs:group>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ELB_UserType">
+		<xs:sequence>
+			<xs:element name="ID" type="elb:EntityID_Type">
+				<xs:annotation>
+					<xs:documentation>Contains the unique identifier associated with the logbook record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AmendsID" type="elb:EntityID_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Pointer to the record this record amends or supersedes. Record contents can including amending information or additional information to referenced record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:group ref="elb:ELB_UserGroup"/>
+			<xs:element name="ELB_UserExtension" type="xs:anyType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Element that allows for non-ATA_DSE_Logbook XML schema standard elements and attributes to be added to the model</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="originDateTime" type="xs:dateTime" use="required">
+			<xs:annotation>
+				<xs:documentation>Contains the date and time when the logbook record was originally created in an electronic or paper system</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="modifiedDateTime" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Contains the date and time when the logbook record was last modified</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="isVoid" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>Indicates if the record referred to in AmendsRecordID is void. If true, Comments should contain reason for void. Note: This is not a physical deletion of the record</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="EntityBaseType">
+		<xs:annotation>
+			<xs:documentation>Base type for Entities</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID" type="elb:EntityID_Type">
+				<xs:annotation>
+					<xs:documentation>Contains the unique identifier associated with this logbook record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssetID" type="elb:EntityID_Type">
+				<xs:annotation>
+					<xs:documentation>Pointer to the asset this record refers to</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AmendsID" type="elb:EntityID_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Pointer to the record this record amends or supersedes. Record contents can include amending information or additional information to referenced record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="originDateTime" type="xs:dateTime" use="required">
+			<xs:annotation>
+				<xs:documentation>Contains the date and time when the logbook record was originally created in an electronic or paper system</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="modifiedDateTime" type="xs:dateTime">
+			<xs:annotation>
+				<xs:documentation>Contains the date and time when the logbook record was last modified</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="isVoid" type="xs:boolean">
+			<xs:annotation>
+				<xs:documentation>Indicates if the record referred to in AmendsRecordID is void. If true, Comments should contain reason for void. Note: This is not a physical deletion of the record</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="EntityID_BaseType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="EntityID_Type">
+		<xs:simpleContent>
+			<xs:extension base="elb:EntityID_BaseType">
+				<xs:annotation>
+					<xs:documentation>This is the source system for the id. The id is assumed to be globally unique in the context of the source. The source is optional, but omission is equivalent to the empty source.</xs:documentation>
+				</xs:annotation>
+				<xs:attribute name="source" type="elb:EntityID_BaseType" use="optional">
+					<xs:annotation>
+						<xs:documentation>System which assigned the unique identifier</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="MaintActionType">
+		<xs:complexContent>
+			<xs:extension base="elb:EntityBaseType">
+				<xs:sequence>
+					<xs:element name="StationCode" type="elb:StationCodeType">
+						<xs:annotation>
+							<xs:documentation>Contains the airport code where the maintenance action was conducted</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Status">
+						<xs:annotation>
+							<xs:documentation>Contains the result of the maintenance action</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:minLength value="4"/>
+								<xs:maxLength value="4"/>
+								<xs:enumeration value="CLSD">
+									<xs:annotation>
+										<xs:documentation>Action resolved the complaint</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="DFRL">
+									<xs:annotation>
+										<xs:documentation>Deferral of action</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="INFO">
+									<xs:annotation>
+										<xs:documentation>Information</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="PEND">
+									<xs:annotation>
+										<xs:documentation>Action Pending</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ELB_User" type="elb:ELB_UserReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Author of the MaintAction</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RecordName" type="elb:RecordNameType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A record ID that may be easily referred to during verbal communication (i.e. not a UUID)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:choice minOccurs="0">
+						<xs:element name="MaintActionCode">
+							<xs:annotation>
+								<xs:documentation>Contains the standard ATA MDE maintenance code</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="5"/>
+									<xs:enumeration value="ADJ">
+										<xs:annotation>
+											<xs:documentation>Adjusted (Example: Adjusted engine idle/trim or corrected position of sensors/ transmitters)</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="CDL">
+										<xs:annotation>
+											<xs:documentation>Maintenance action was performed according to the Configuration Deviation List</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="CLN">
+										<xs:annotation>
+											<xs:documentation>Cleaned specified unit (Example: Cannon plugs, connectors, sensors)</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="DEF">
+										<xs:annotation>
+											<xs:documentation>Maintenance action was deferred Possible reason could be: Incomplete information</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="DICE">
+										<xs:annotation>
+											<xs:documentation>Unit was de-iced, thawed, or heat was applied as specified</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="FOD">
+										<xs:annotation>
+											<xs:documentation>Foreign Object Debris was found and removed from a unit</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="INC">
+										<xs:annotation>
+											<xs:documentation>Maintenance action could not be performed - incomplete information (Example: Requires additional trouble shooting, lack of appropriate documentation, etc.)</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="INS">
+										<xs:annotation>
+											<xs:documentation>Installed missing parts</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="INSP">
+										<xs:annotation>
+											<xs:documentation>Unit was visually inspected</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="LDEF">
+										<xs:annotation>
+											<xs:documentation>Long term deferral.  Non MEL items that are deferred until a future scheduled maintenance check, to a limitation exceedance point or to the next opportunity that arises.</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="LUB">
+										<xs:annotation>
+											<xs:documentation>Lubricated unit</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="MEL">
+										<xs:annotation>
+											<xs:documentation>Minimum Equipment List - Dispatched with applicable MEL instructions invoked</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="PCA">
+										<xs:annotation>
+											<xs:documentation>Partially Complete Action</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="PRG">
+										<xs:annotation>
+											<xs:documentation>A unit, such as computer programs had to be re-programmed, updated, or reloaded</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="PUR">
+										<xs:annotation>
+											<xs:documentation>Unit was purged, bled, flushed of liquids</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="REIN">
+										<xs:annotation>
+											<xs:documentation>Re-install, Re-seat, Re-rack avionics components</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="REPR">
+										<xs:annotation>
+											<xs:documentation>Unit was repaired</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="RES">
+										<xs:annotation>
+											<xs:documentation>Specified unit required electrical resetting, recycling, powering up/down, RTS test or BITE test</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="RIG">
+										<xs:annotation>
+											<xs:documentation>Unit required rigging (Example: Engine, flight controls, doors, windows)</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="RPLC">
+										<xs:annotation>
+											<xs:documentation>Replaced - Unit has been replaced</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="RPOS">
+										<xs:annotation>
+											<xs:documentation>Re-position, etc... lines, hoses, clamps, panels, wires, seals</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="SER">
+										<xs:annotation>
+											<xs:documentation>Serviced a unit with appropriate material (Example: Added fluids, air, water, oxygen, nitrogen, charges batteries)</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="SWP">
+										<xs:annotation>
+											<xs:documentation>Specified components were swapped</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="TGT">
+										<xs:annotation>
+											<xs:documentation>Tightened, retorqued or secured fastening hardware Example: Bolts, nuts, fasteners, lines or springs</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="TRB">
+										<xs:annotation>
+											<xs:documentation>Troubleshooting</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="MaintActionCodeOther" type="elb:OtherType">
+							<xs:annotation>
+								<xs:documentation>Contains other non-standard ATA maintenance code</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:element name="MaintActionDescription" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>[MNT] Contains the maintenance action description text</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="4000"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="TypeOfMaintAction" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates the effect of this MaintAction on the airworthiness of the aircraft</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="20"/>
+								<xs:enumeration value="BreaksRelease">
+									<xs:annotation>
+										<xs:documentation>MaintAction performed affects airworthiness and should be considered for a new release</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="DoesNotBreakRelease">
+									<xs:annotation>
+										<xs:documentation>MaintAction performed does not affect airworthiness and should not be considered as breaking a release</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="InfoOnly">
+									<xs:annotation>
+										<xs:documentation>MaintAction performed documents information only, no affect on airworthiness or release</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="NoActionTaken">
+									<xs:annotation>
+										<xs:documentation>MaintAction performed does not document any real action and has no affect on airworthiness or release</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ATA_Num" type="elb:ATA_NumType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>[ATA] Contains a reference to the ATA number (chapter and sections) relevant to the maintenance action. Includes dashes.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaintMessageNum" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Central Maintenance Computer (CMC) generated message code referred to when taking this maintenance action</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="20"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ActionAuthorityRef" type="elb:DocumentReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>[AUT] Contains the reference to the document providing authority for the action taken or deferral</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IsInspectionRequired" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates whether this maintenance action requires an inspection</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IsVisual" type="xs:boolean" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Structural repair or deferral is visual during walkaround inspection.  IsVisual indicates items which should be present on a buckle and dent chart / ding list.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaintActionDeferral" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Parent element containing Maintenance Action Deferral information</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:choice minOccurs="0">
+									<xs:element name="TypeOfDeferral">
+										<xs:annotation>
+											<xs:documentation>Indicates whether the deferral is a MEL, CDL, or other. C=CDL, M=MEL</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="1"/>
+												<xs:enumeration value="C">
+													<xs:annotation>
+														<xs:documentation>CDL Configuration Deviations List</xs:documentation>
+													</xs:annotation>
+												</xs:enumeration>
+												<xs:enumeration value="M">
+													<xs:annotation>
+														<xs:documentation>MEL Minimum Equipment List</xs:documentation>
+													</xs:annotation>
+												</xs:enumeration>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="TypeOfDeferralOther" type="elb:OtherType">
+										<xs:annotation>
+											<xs:documentation>Indicates other type of deferral.</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:choice>
+								<xs:element name="DeferralRefNum" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Contains the deferral Authorization Number from Maintenance Control</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="50"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:choice minOccurs="0">
+									<xs:element name="DeferralCategory">
+										<xs:annotation>
+											<xs:documentation>Contains the Deferral classification</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="1"/>
+												<xs:enumeration value="A">
+													<xs:annotation>
+														<xs:documentation>Repair limit defined by remarks and exceptions</xs:documentation>
+													</xs:annotation>
+												</xs:enumeration>
+												<xs:enumeration value="B">
+													<xs:annotation>
+														<xs:documentation>Three Days</xs:documentation>
+													</xs:annotation>
+												</xs:enumeration>
+												<xs:enumeration value="C">
+													<xs:annotation>
+														<xs:documentation>Ten Days</xs:documentation>
+													</xs:annotation>
+												</xs:enumeration>
+												<xs:enumeration value="D">
+													<xs:annotation>
+														<xs:documentation>120 Days</xs:documentation>
+													</xs:annotation>
+												</xs:enumeration>
+												<xs:enumeration value="X">
+													<xs:annotation>
+														<xs:documentation>Other</xs:documentation>
+													</xs:annotation>
+												</xs:enumeration>
+												<xs:enumeration value="Z">
+													<xs:annotation>
+														<xs:documentation>Repair limit and/or repetitive inspection requirement tracked external to logbook system (used primarily for structural defects)</xs:documentation>
+													</xs:annotation>
+												</xs:enumeration>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+									<xs:element name="DeferralCategoryOther">
+										<xs:annotation>
+											<xs:documentation>Indicates other type of deferral category</xs:documentation>
+										</xs:annotation>
+										<xs:simpleType>
+											<xs:restriction base="xs:string">
+												<xs:maxLength value="2"/>
+											</xs:restriction>
+										</xs:simpleType>
+									</xs:element>
+								</xs:choice>
+								<xs:element name="DeferralReason" minOccurs="0" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>[MCE] Contains a text description indicating the reason for the deferral. Example:Time;Parts;Manpower;Curfew;Tooling/Test Equipment;Ground Support Equipment;Skill;Awaiting Engr Approval;Convenience;Long Term Deferral</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="60"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="DeferralRestrictions" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Contains the description of the restriction given by MEL/CDL or other deferral authority. Example:Limit flight to FL270 or below</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="500"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+								<xs:element name="Recheck" minOccurs="0" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="RecheckAction">
+												<xs:annotation>
+													<xs:documentation>Contains the associated maintenance procedure for deferral dispatch</xs:documentation>
+												</xs:annotation>
+												<xs:simpleType>
+													<xs:restriction base="xs:string">
+														<xs:maxLength value="500"/>
+													</xs:restriction>
+												</xs:simpleType>
+											</xs:element>
+											<xs:element name="TypeOfRecheckFrequency" maxOccurs="unbounded">
+												<xs:annotation>
+													<xs:documentation>Type of frequency associated with the recheck action</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:simpleContent>
+														<xs:extension base="elb:RecheckFrequencyType">
+															<xs:attribute name="recheckFrequencyCount" type="xs:int" use="required">
+																<xs:annotation>
+																	<xs:documentation>Number of occurrences associated with the recheck action. Should be set to 1 if TypeOfRecheckFrequency is BeforeEachFlight, BeforeFirstFlightOfDay or AfterEachRefueling. Example:2;5;50</xs:documentation>
+																</xs:annotation>
+															</xs:attribute>
+														</xs:extension>
+													</xs:simpleContent>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="Expiration" type="elb:ExpirationType" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>Contains the deferral expiration parameters. Omission of this element implies the deferral has no expiration (e.g. for a CDL item).</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<!-- <xs:element name="IsExpiration" type="xs:boolean" minOccurs="0"/> -->
+								<xs:element name="DeferralExtensionRef" minOccurs="0" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Airline reference number used when extending a deferral</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:maxLength value="20"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="Comments" type="elb:CommentsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>[MNT] Contains additional notes about the maintenance action</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaintActionExtension" type="xs:anyType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Element that allows for non-ATA_DSE_Logbook XML schema standard elements and attributes to be added to the model</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MaintActionPartReplacementType">
+		<xs:complexContent>
+			<xs:extension base="elb:EntityBaseType">
+				<xs:sequence>
+					<xs:element name="ELB_User" type="elb:ELB_UserReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Author of the MaintActionPartReplacement</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:choice minOccurs="0">
+						<xs:element name="TypeOfRemoval">
+							<xs:annotation>
+								<xs:documentation>[TTY] Records the type of removal with a removal code</xs:documentation>
+							</xs:annotation>
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:maxLength value="1"/>
+									<xs:enumeration value="S">
+										<xs:annotation>
+											<xs:documentation>Scheduled</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="U">
+										<xs:annotation>
+											<xs:documentation>Unscheduled</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+									<xs:enumeration value="R">
+										<xs:annotation>
+											<xs:documentation>Robbery or cannibalization</xs:documentation>
+										</xs:annotation>
+									</xs:enumeration>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="TypeOfRemovalOther" type="elb:OtherType">
+							<xs:annotation>
+								<xs:documentation>Indicates other type of removal. Example:Borrow</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+					<xs:element name="ConfigImpact" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Supplemental information about an installation or removal to help categorize it for use by configuration management systems and/or management of loaned parts.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="50"/>
+								<xs:enumeration value="LoanInstall">
+									<xs:annotation>
+										<xs:documentation>Part is serviceable, but don't check configuration</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="LoanReturn">
+									<xs:annotation>
+										<xs:documentation>Part removed to return to lender</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="RemoveForAccess">
+									<xs:annotation>
+										<xs:documentation>Part is (still) serviceable</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="Reinstall">
+									<xs:annotation>
+										<xs:documentation>Reinstall of "RemoveForAccess" part</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="RemoveOnly">
+									<xs:annotation>
+										<xs:documentation>Don't expect an install</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+								<xs:enumeration value="InstallOnly">
+									<xs:annotation>
+										<xs:documentation>Don't expect a removal</xs:documentation>
+									</xs:annotation>
+								</xs:enumeration>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="PartOn" type="elb:PartType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Contains information about part installed</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PartOff" type="elb:PartType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Contains information about part removed</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaintActionPartReplacementExtension" type="xs:anyType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Element that allows for non-ATA_DSE_Logbook XML schema standard elements and attributes to be added to the model</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MaintLogType">
+		<xs:complexContent>
+			<xs:extension base="elb:EntityBaseType">
+				<xs:sequence>
+					<xs:element name="TypeOfMaintLog">
+						<xs:annotation>
+							<xs:documentation>Categorizes the type of entry made in the MaintLog.
+
+FAULT = Fault Report
+INFO = Information Entry
+WORK = Operational Work Order
+REQST  = Request for Action
+STRUC = Structural Defects
+AMS  = Aircraft Maintenance Specification
+NOTE = Note or Notice to Crew
+
+Fault Reports are defects that are entered in the aircraft technical log or cabin log in paper logbook systems.  When identified along with IsDispatchDefect=true, these defects affect airplane airworthiness.
+
+Information Entries are intended to convey information exchange between flight/cabin crew and maintenance which does not require disposition by Maintenance.
+
+Work Order is also known as MCC order, call-out, or action order, maintenance support order.  Work Orders may contain instructions to line engineering/maintenance for the clearing of a fault report (i.e. related to another MaintLog), or the accomplishment of other tasks in the line maintenance environment (e.g. airworthiness directives, engineering orders, scheduled maintenance, etc.).
+
+Requests for Action are flight or cabin crew reports of conditions which require maintenance action but do not represent a defective item and should not be treated as a Fault Report.  Example: "Flight deck dirty, needs cleaning." 
+
+Structural Defects document damage to the aircraft such as dents, cracks, scratches, holes and corrosion.
+
+Aircraft Maintenance Specification contains either Engineering order (related to scheduled maintenance and/or modifications) OR  Maintenance program related tasks (MPD, scheduled maintenance, ADs, etc.) which includes 
+-  Callouts / Periodic inspections
+-  Reliability program driven requirements
+
+Note/Notice to Crew document content for crew awareness and/or acknowledgement.
+</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="5"/>
+								<xs:enumeration value="FAULT"/>
+								<xs:enumeration value="INFO"/>
+								<xs:enumeration value="WORK"/>
+								<xs:enumeration value="REQST"/>
+								<xs:enumeration value="STRUC"/>
+								<xs:enumeration value="AMS"/>
+								<xs:enumeration value="NOTE"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ComponentAssetID" type="elb:EntityID_Type" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>ID of the top level asset (typically an aircraft) if AssetID identifies a component of a higher level asset</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StationCode" type="elb:StationCodeType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Contains the airport code where the MaintLog was recorded (typically used for MaintLog faults reported on ground)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ELB_User" type="elb:ELB_UserReferenceType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Contains the user information or Unique ID associated with a record in ELB_User identifying the author of the MaintLog.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RecordName" type="elb:RecordNameType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A record ID that may be easily referred to during verbal communication (i.e. not a UUID)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="FaultCode" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>[FLT] Contains the standardized defect report fault code</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="20"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="ATA_Num" type="elb:ATA_NumType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>[DTA] Contains a reference to the ATA number (chapter and sections) relevant to the defect report. Includes dashes.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="FaultDescription" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>[AMT] Contains the standardized description for a standard fault</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="1000"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="CabinFaultLoc" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>This indicates the location of the cabin fault, either as free text or as a code. May be used in cases where location code does not fit as three position location code (as positions 6-8 of FaultCode).</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="100"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="Severity" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Contains a value or description of the severity associated with the defect.  Example: High</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="10"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="FlightPhase" type="elb:FlightPhaseType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>[POF] Identifies the phase of flight at the time the defect occurred</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AircraftConfig" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Contains a description of the aircraft configuration at the time of a defect</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:maxLength value="20"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="StructuralDamageLoc" type="elb:StructuralLocationType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Identifies the location of structural damage</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Comments" type="elb:CommentsType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>[DCT] Contains additional notes about the defect, or free text fault description if no standard fault description exists</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PartType">
+		<xs:annotation>
+			<xs:documentation>Contains information about a part</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PartNum">
+				<xs:annotation>
+					<xs:documentation>[ASN, MPN] Contains the part number of the installed/removed/demanded part</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="elb:PartNumType">
+							<xs:attribute name="typeOfPartNum" use="required">
+								<xs:annotation>
+									<xs:documentation>Contains the type of part number of the installed/removed/demanded part</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="3"/>
+										<xs:maxLength value="3"/>
+										<xs:enumeration value="ASN">
+											<xs:annotation>
+												<xs:documentation>Airline Stock Number</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="MPN">
+											<xs:annotation>
+												<xs:documentation>Manufacturer Part Number</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:choice minOccurs="0">
+				<xs:element name="TypeOfPart">
+					<xs:annotation>
+						<xs:documentation>Contains the type of part</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="15"/>
+							<xs:enumeration value="Rotable"/>
+							<xs:enumeration value="Repairable"/>
+							<xs:enumeration value="Consumable"/>
+							<xs:enumeration value="Expendable"/>
+							<xs:enumeration value="Software"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="TypeOfPartOther" type="elb:OtherType">
+					<xs:annotation>
+						<xs:documentation>Indicates other type of part</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:choice>
+			<xs:element name="PartCertificate" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Contains information about the certificate(s) related to this part</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PartCertificateTrackingNum">
+							<xs:annotation>
+								<xs:documentation>[TDN] Contains the regulatory agency part certification identification number.  FAA 8130, EASA Form 1, or equivalent. Example:8310-1234</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="elb:PartCertificateType">
+										<xs:attribute name="formVersionIdentifier" use="optional">
+											<xs:annotation>
+												<xs:documentation>[FVI] Version identifier for the part certificate</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="xs:string">
+													<xs:maxLength value="32"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+						<xs:choice>
+							<xs:element name="TypeOfPartCertificate">
+								<xs:annotation>
+									<xs:documentation>[CET] Indicates the authority document type indicating part airworthiness</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:maxLength value="32"/>
+										<xs:minLength value="2"/>
+										<xs:enumeration value="CASA FORM 1"/>
+										<xs:enumeration value="FAA Form 8130-3"/>
+										<xs:enumeration value="EASA Form 1"/>
+										<xs:enumeration value="TCCA Form ONE"/>
+										<xs:enumeration value="Certificate of Conformance"/>
+										<xs:enumeration value="Certificate of Conformity"/>
+										<xs:enumeration value="Transfer Document"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+							<xs:element name="TypeOfPartCertificateOther" type="elb:OtherType">
+								<xs:annotation>
+									<xs:documentation>Other type of part certificate. Example:JAA Form 1</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PartDescription" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[PDT] Contains the name of the installed/removed/demanded part</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PartManufacturerCode" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[MFR] CAGE code of installed/removed/demanded part</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="5"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PartPosition" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[CPI, EPC] Contains either: 
+the location description of the installed/removed/ demanded part relative to the airframe 
+- or -
+the engine/APU position (1, 2, 3, 4, etc.)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="25"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PartPositionRelativeToEngine" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains the position of a installed/removed/demanded part whose location is relative to powerplant or APU</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="100"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="PartSerialNum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[SER,UCN,USN,UST]Contains the serial number of the installed/removed part</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="elb:PartSerialNumType">
+							<xs:attribute name="typeOfPartSerialNum" use="required">
+								<xs:annotation>
+									<xs:documentation>Contains the type of serial number (SER, UCN, USN-barcode, UST-in service barcode) assigned to the installed part</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:minLength value="3"/>
+										<xs:maxLength value="3"/>
+										<xs:enumeration value="SER">
+											<xs:annotation>
+												<xs:documentation>Part Serial Number</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="UCN">
+											<xs:annotation>
+												<xs:documentation>Unique Component Identification Number (non-manufacturer assigned)</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="USN">
+											<xs:annotation>
+												<xs:documentation>Universal Serial Number</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+										<xs:enumeration value="UST">
+											<xs:annotation>
+												<xs:documentation>Universal Serial Tracking Number</xs:documentation>
+											</xs:annotation>
+										</xs:enumeration>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="IsLoanUnit" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies if the installed/removed part is a Loan Unit (IATP part)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsETOPS_Significant" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies if the installed/removed/demanded part is ETOPS Significant</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsWarranty" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies if removed part still has/might have warranty on it</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BatchNum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>[LOT] Contains the Batch Number of a part</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="15"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Quantity" type="elb:QuantityType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains the quantity of demanded/installed parts as part of the related maintenance action.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentReference" type="elb:DocumentReferenceType" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Contains normalized reference information for the part or task</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ValidationReference" type="elb:ValidationReferenceType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the status of the validation of the part</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comments" type="elb:CommentsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Contains additional notes on the installed/removed/demanded part</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PartExtension" type="xs:anyType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Element that allows for non-ATA_DSE_Logbook XML schema standard elements and attributes to be added to the model</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
