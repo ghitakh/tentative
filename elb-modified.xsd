@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Limitations of Liability:
+1. This material is provided "As Is" and neither ATA nor any person who has contributed to the creation, revision or maintenance of the material makes any representations or warranties, express or implied, including but not limited to, warranties of merchantability or fitness for any particular purpose.
+2. Neither ATA nor any person who has contributed to the creation, revision or maintenance of this material shall be liable for any direct, indirect, special or consequential damages or any other liability arising from any use of this material.
+3. Revisions to this document may occur after its issuance. The user is responsible for determining if revisions to the material contained in this document have occurred and are applicable.
+-->
+<xs:schema xmlns:elb="http://www.ataebiz.org/XMLSchema/DSELogbook" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.ataebiz.org/XMLSchema/DSELogbook" elementFormDefault="qualified" attributeFormDefault="unqualified" version="4.01">
+	<xs:import namespace="http://uri.etsi.org/01903/v1.3.2#" schemaLocation="http://uri.etsi.org/01903/v1.3.2/XAdES.xsd"/>
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="http://www.w3.org/TR/2002/REC-xmldsig-core-20020212/xmldsig-core-schema.xsd"/>
+	<xs:annotation>
+		<xs:documentation>Version Number: 4.01</xs:documentation>
+		<xs:documentation>Revision Date: Sep 2016</xs:documentation>
+		<xs:documentation>Revision Comments: Minor revision started Minneapolis Oct 2015, updated Dallas Mar 2016</xs:documentation>
+	</xs:annotation>
+
+<xs:complexType name="EntityBaseType">
+		<xs:annotation>
+			<xs:documentation>Base type for Entities</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID" type="EntityID_Type">
+				<xs:annotation>
+					<xs:documentation>Contains the unique identifier associated with this logbook record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AssetID" type="EntityID_Type" use="optional">
+				<xs:annotation>
+					<xs:documentation>Pointer to the asset this record refers to</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AmendsID" type="EntityID_Type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Pointer to the record this record amends or supersedes. Record contents can include amending information or additional information to referenced record</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="EntityID_Type">
+		<xs:simpleContent>
+			<xs:extension base="EntityID_BaseType">
+				<xs:annotation>
+					<xs:documentation>This is the source system for the id. The id is assumed to be globally unique in the context of the source. The source is optional, but omission is equivalent to the empty source.</xs:documentation>
+				</xs:annotation>
+				<xs:attribute name="source" type="EntityID_BaseType">
+					<xs:annotation>
+						<xs:documentation>System which assigned the unique identifier</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>
