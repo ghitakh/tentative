@@ -1,4 +1,3 @@
-<ATA_DSE_Logbook operator="UUU" version="4.01">
 	<MaintAction originDateTime="2006-06-30T18:53:20Z" modifiedDateTime="2006-06-30T18:53:20Z" isVoid="false">
 		<ID>48564354:10c2641fec6:-7ff8</ID>
 		<AssetID>N12345</AssetID>
@@ -21,4 +20,3 @@
 			<DeferralExtensionRef>KLM 71965</DeferralExtensionRef>
 		</MaintActionDeferral>
 	</MaintAction>
-</ATA_DSE_Logbook>
