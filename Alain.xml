@@ -1,0 +1,24 @@
+<ATA_DSE_Logbook operator="UUU" version="4.01">
+	<MaintAction originDateTime="2006-06-30T18:53:20Z" modifiedDateTime="2006-06-30T18:53:20Z" isVoid="false">
+		<ID>48564354:10c2641fec6:-7ff8</ID>
+		<AssetID>N12345</AssetID>
+		<StationCode>JNB</StationCode>
+		<Status>DFRL</Status>
+		<RecordName sourceOfRecordName="MyLogbookApp">AT11223344</RecordName>
+		<ActionAuthorityRef>
+			<DocumentNumber>MEL 38-11-01</DocumentNumber>
+			<Model>777</Model>
+			<TypeOfDocument>MEL</TypeOfDocument>
+			<RevisionNum>42</RevisionNum>
+		</ActionAuthorityRef>
+		<MaintActionDeferral>
+			<TypeOfDeferral>M</TypeOfDeferral>
+			<DeferralCategory>B</DeferralCategory>
+			<DeferralReason>Manpower not available</DeferralReason>
+			<Expiration>
+				<Date>2011-11-12T23:59:00Z</Date>
+			</Expiration>
+			<DeferralExtensionRef>KLM 71965</DeferralExtensionRef>
+		</MaintActionDeferral>
+	</MaintAction>
+</ATA_DSE_Logbook>
